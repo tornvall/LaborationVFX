@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using LaborationVFX.Components.Input;
 using LaborationVFX.Components;
+using LaborationVFX.Entities;
 
 namespace LaborationVFX {
     /// <summary>
@@ -26,6 +27,7 @@ namespace LaborationVFX {
 
         private BasicEffect effect;
         private Matrix world;
+        List<AbstractEntity> entities;
 
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
@@ -39,15 +41,12 @@ namespace LaborationVFX {
         /// and initialize them as well.
         /// </summary>
         protected override void Initialize() {
-            // TODO: Add your initialization logic here
-
             graphics.GraphicsProfile = GraphicsProfile.HiDef;
             graphics.IsFullScreen = false;
             graphics.PreferMultiSampling = true;
             graphics.PreferredBackBufferHeight = 480;
             graphics.PreferredBackBufferWidth = 800;
             graphics.SynchronizeWithVerticalRetrace = true;
-
 
             camera = new Camera(GraphicsDevice);
             fcamera = new FlyingCamera();
@@ -72,8 +71,8 @@ namespace LaborationVFX {
 
             effect = new BasicEffect(GraphicsDevice);
 
-            simplePlane = new SimplePlane(GraphicsDevice, new Vector3(0, 0, 0), Quaternion.Identity, 1f);
-            // TODO: use this.Content to load your game content here
+            entities = new List<AbstractEntity>();
+            entities.Add(new SimplePlane(GraphicsDevice, new Vector3(0, 0, 0), Quaternion.Identity, 1f));
         }
 
         /// <summary>
@@ -101,10 +100,14 @@ namespace LaborationVFX {
             //To make the camera mov   
             camera.Update(fcamera.Position, fcamera.Rotation);
 
-            // TODO: Add your update logic here
+            foreach (AbstractEntity entity in entities)
+            {
+                entity.Update(gameTime);
+            }
 
             base.Update(gameTime);
         }
+
         private void inputAction(List<ActionType> actions, float elapsedTime)
         {
             foreach (var action in actions)
@@ -132,7 +135,11 @@ namespace LaborationVFX {
             //effect.TextureEnabled = true;
 
             Matrix parent = Matrix.Identity;
-            simplePlane.Draw(ref effect, ref parent);
+
+            foreach (AbstractEntity entity in entities)
+            {
+                entity.Draw(ref effect, ref parent);
+            }
 
             base.Draw(gameTime);
         }

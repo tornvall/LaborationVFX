@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace LaborationVFX.Entities
 {
-    public class AbstractEntity
+    public abstract class AbstractEntity
     {
         #region Fields and Properties
 
@@ -64,6 +64,16 @@ namespace LaborationVFX.Entities
             this.position = position;
             this.rotation = rotation;
             this.scale = scale;
+        }
+
+        public virtual void Update(GameTime gameTime)
+        {
+
+        }
+
+        public virtual void Draw(ref BasicEffect effect, ref Matrix parentWorld)
+        {
+
         }
     }
 }
