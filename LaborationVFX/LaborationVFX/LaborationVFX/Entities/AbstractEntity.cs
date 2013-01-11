@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Content;
 
 namespace LaborationVFX.Entities
 {
@@ -66,14 +67,27 @@ namespace LaborationVFX.Entities
             this.scale = scale;
         }
 
+        public virtual void LoadContent(ContentManager content)
+        {
+            foreach (AbstractEntity entity in Children)
+            {
+                entity.LoadContent(content);
+            }
+        }
+
         public virtual void Update(GameTime gameTime)
         {
-
+            foreach (AbstractEntity entity in Children) {
+                entity.Update(gameTime);
+            }
         }
 
         public virtual void Draw(ref BasicEffect effect, ref Matrix parentWorld)
         {
-
+            foreach (AbstractEntity entity in Children)
+            {
+                entity.Draw(ref effect, ref parentWorld);
+            }
         }
     }
 }

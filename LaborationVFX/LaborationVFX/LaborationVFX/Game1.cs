@@ -58,6 +58,10 @@ namespace LaborationVFX {
             Components.Add(ip);
             Services.AddService(typeof(IInputHandler), ip);
 
+            entities = new List<AbstractEntity>();
+            entities.Add(new SimplePlane(GraphicsDevice, new Vector3(0, 0, 0), Quaternion.Identity, 1f));
+            entities.Add(new Ground(GraphicsDevice, new Vector3(0, 0, 0), Quaternion.Identity, 1f));
+
             base.Initialize();
         }
 
@@ -68,11 +72,12 @@ namespace LaborationVFX {
         protected override void LoadContent() {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
             effect = new BasicEffect(GraphicsDevice);
 
-            entities = new List<AbstractEntity>();
-            entities.Add(new SimplePlane(GraphicsDevice, new Vector3(0, 0, 0), Quaternion.Identity, 1f));
+            foreach (AbstractEntity entity in entities)
+            {
+                entity.LoadContent(this.Content);
+            }
         }
 
         /// <summary>
