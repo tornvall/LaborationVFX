@@ -59,7 +59,7 @@ namespace LaborationVFX {
             Services.AddService(typeof(IInputHandler), ip);
 
             entities = new List<AbstractEntity>();
-            entities.Add(new SimplePlane(GraphicsDevice, new Vector3(0, 0, 0), Quaternion.Identity, 1f));
+            //entities.Add(new SimplePlane(GraphicsDevice, new Vector3(0, 0, 0), Quaternion.Identity, 1f));
             entities.Add(new Ground(GraphicsDevice, new Vector3(0, 0, 0), Quaternion.Identity, 1f));
 
             base.Initialize();

@@ -19,7 +19,7 @@ namespace LaborationVFX.Entities
 
         public override void LoadContent(ContentManager content)
         {
-            Texture2D texture = content.Load<Texture2D>("Entities/ground-setts");
+            texture = content.Load<Texture2D>("Entities/ground-setts");
 
             base.LoadContent(content);
         }
@@ -31,6 +31,9 @@ namespace LaborationVFX.Entities
 
         public override void Draw(ref BasicEffect effect, ref Matrix parentWorld)
         {
+            effect.Texture = texture;
+            effect.TextureEnabled = true;
+            effect.VertexColorEnabled = false;
             base.Draw(ref effect, ref parentWorld);
         }
     }
