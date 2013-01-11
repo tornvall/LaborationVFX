@@ -66,6 +66,11 @@ namespace LaborationVFX.Entities {
             indices[4] = 4;
         }
 
+        public virtual void Update(GameTime gameTime)
+        {
+            
+        }
+
         public void Draw(ref BasicEffect effect, ref Matrix parentWorld) {
             Matrix newWorld = this.World * parentWorld;
             effect.World = newWorld;

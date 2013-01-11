@@ -11,6 +11,17 @@ namespace LaborationVFX.Entities
     {
         #region Fields and Properties
 
+        private List<AbstractEntity> children;
+        public List<AbstractEntity> Children
+        {
+            get {
+                if (children == null)
+                    return new List<AbstractEntity>();
+                return children;
+            }
+            set { children = value; }
+        }
+
         private GraphicsDevice device;
         public GraphicsDevice Device
         {
