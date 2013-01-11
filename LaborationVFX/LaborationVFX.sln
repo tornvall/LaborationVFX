@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LaborationVFX", "LaborationVFX\LaborationVFX\LaborationVFX.csproj", "{22047B2A-2856-4516-B403-30E95467122D}"
 EndProject
-Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "LaborationVFXContent", "LaborationVFX\LaborationVFXContent\LaborationVFXContent.contentproj", "{AE8A156A-51C2-474B-8C75-A243011281F7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LaborationVFXContent", "LaborationVFX\LaborationVFXContent\LaborationVFXContent.contentproj", "{AE8A156A-51C2-474B-8C75-A243011281F7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LabVFXLib", "LabVFXLib\LabVFXLib.csproj", "{195333A2-B2A7-42EB-8D91-04D560CEADB8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,6 +19,10 @@ Global
 		{22047B2A-2856-4516-B403-30E95467122D}.Release|x86.Build.0 = Release|x86
 		{AE8A156A-51C2-474B-8C75-A243011281F7}.Debug|x86.ActiveCfg = Debug|x86
 		{AE8A156A-51C2-474B-8C75-A243011281F7}.Release|x86.ActiveCfg = Release|x86
+		{195333A2-B2A7-42EB-8D91-04D560CEADB8}.Debug|x86.ActiveCfg = Debug|x86
+		{195333A2-B2A7-42EB-8D91-04D560CEADB8}.Debug|x86.Build.0 = Debug|x86
+		{195333A2-B2A7-42EB-8D91-04D560CEADB8}.Release|x86.ActiveCfg = Release|x86
+		{195333A2-B2A7-42EB-8D91-04D560CEADB8}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
