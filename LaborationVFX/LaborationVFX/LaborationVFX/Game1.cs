@@ -29,6 +29,8 @@ namespace LaborationVFX {
         private Matrix world;
         List<AbstractEntity> entities;
 
+        Ground ground;
+
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -51,7 +53,7 @@ namespace LaborationVFX {
             camera = new Camera(GraphicsDevice);
             fcamera = new FlyingCamera();
 
-            RasterizerState rs = new RasterizerState() { CullMode = CullMode.None };
+            RasterizerState rs = new RasterizerState() { CullMode = CullMode.CullCounterClockwiseFace };
             graphics.GraphicsDevice.RasterizerState = rs;
 
             InputHandler ip = new InputHandler(this);
@@ -60,7 +62,7 @@ namespace LaborationVFX {
 
             entities = new List<AbstractEntity>();
             //entities.Add(new SimplePlane(GraphicsDevice, new Vector3(0, 0, 0), Quaternion.Identity, 1f));
-            entities.Add(new Ground(GraphicsDevice, new Vector3(0, 0, 0), Quaternion.Identity, 1f));
+            //entities.Add(new Ground(GraphicsDevice, new Vector3(0, 0, 0), Quaternion.Identity, 1f));
 
             base.Initialize();
         }
@@ -74,10 +76,15 @@ namespace LaborationVFX {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             effect = new BasicEffect(GraphicsDevice);
 
-            foreach (AbstractEntity entity in entities)
-            {
-                entity.LoadContent(this.Content);
-            }
+            //foreach (AbstractEntity entity in entities)
+            //{
+            //    entity.LoadContent(this.Content);
+            //}
+
+            simplePlane = new SimplePlane(GraphicsDevice, Vector3.Zero, Quaternion.Identity, 1f);
+
+            ground = new Ground(GraphicsDevice, new Vector3(0, 0, 0), Quaternion.Identity, 1f);
+            ground.LoadContent(Content);
         }
 
         /// <summary>
@@ -105,10 +112,10 @@ namespace LaborationVFX {
             //To make the camera mov   
             camera.Update(fcamera.Position, fcamera.Rotation);
 
-            foreach (AbstractEntity entity in entities)
-            {
-                entity.Update(gameTime);
-            }
+            //foreach (AbstractEntity entity in entities)
+            //{
+            //    entity.Update(gameTime);
+            //}
 
             base.Update(gameTime);
         }
@@ -141,10 +148,13 @@ namespace LaborationVFX {
 
             Matrix parent = Matrix.Identity;
 
-            foreach (AbstractEntity entity in entities)
-            {
-                entity.Draw(ref effect, ref parent);
-            }
+            //foreach (AbstractEntity entity in entities)
+            //{
+            //    entity.Draw(effect, parent);
+            //}
+
+            //simplePlane.Draw(effect, parent);
+            ground.Draw(effect, parent);
 
             base.Draw(gameTime);
         }

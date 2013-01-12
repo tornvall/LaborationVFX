@@ -71,10 +71,12 @@ namespace LaborationVFX.Entities {
             
         }
 
-        public override void Draw(ref BasicEffect effect, ref Matrix parentWorld)
+        public override void Draw(BasicEffect effect, Matrix parentWorld)
         {
             Matrix newWorld = this.World * parentWorld;
             effect.World = newWorld;
+            effect.TextureEnabled = false;
+            effect.VertexColorEnabled = true;
             effect.CurrentTechnique.Passes[0].Apply();
 
             this.Device.SetVertexBuffer(this.vertexBuffer);

@@ -10,53 +10,43 @@ namespace LaborationVFX.Entities
 {
     public abstract class AbstractEntity
     {
-        #region Fields and Properties
+        #region Fields
+        private List<AbstractEntity> children;     
+        private GraphicsDevice device;       
+        private Vector3 position;       
+        private Quaternion rotation;        
+        private float scale;       
+        private Matrix world;     
+        #endregion
 
-        private List<AbstractEntity> children;
-        public List<AbstractEntity> Children
-        {
+        #region Properties
+        public List<AbstractEntity> Children {
             get {
-                if (children == null)
+                if(children == null)
                     return new List<AbstractEntity>();
                 return children;
             }
             set { children = value; }
         }
-
-        private GraphicsDevice device;
-        public GraphicsDevice Device
-        {
+        public GraphicsDevice Device {
             get { return device; }
         }
-
-        private Vector3 position;
-        public Vector3 Position
-        {
+        public Vector3 Position {
             get { return position; }
             protected set { position = value; }
         }
-
-        private Quaternion rotation;
-        public Quaternion Rotation
-        {
+        public Quaternion Rotation {
             get { return rotation; }
             protected set { rotation = value; }
         }
-
-        private float scale;
-        public float Scale
-        {
+        public float Scale {
             get { return scale; }
             protected set { scale = value; }
         }
-
-        private Matrix world;
-        public Matrix World
-        {
+        public Matrix World {
             get { return world; }
             protected set { world = value; }
         }
-
         #endregion
 
         public AbstractEntity(GraphicsDevice graphicsDevice, Vector3 position, Quaternion rotation, float scale)
@@ -82,11 +72,11 @@ namespace LaborationVFX.Entities
             }
         }
 
-        public virtual void Draw(ref BasicEffect effect, ref Matrix parentWorld)
+        public virtual void Draw(BasicEffect effect, Matrix parentWorld)
         {
             foreach (AbstractEntity entity in Children)
             {
-                entity.Draw(ref effect, ref parentWorld);
+                entity.Draw(effect, parentWorld);
             }
         }
     }
