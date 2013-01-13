@@ -92,7 +92,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Geometry\AModel.cs" />
+    <Compile Include="Geometry\AbstractModel.cs" />
     <Compile Include="Geometry\VFXModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Transparency.cs" />
