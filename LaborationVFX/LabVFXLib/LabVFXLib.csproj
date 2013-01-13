@@ -93,6 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="Geometry\AModel.cs" />
     <Compile Include="Geometry\VFXModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
