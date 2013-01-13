@@ -17,7 +17,8 @@ namespace LaborationVFX.Components
 
         public FlyingCamera()
         {
-            this.Position = new Vector3(0, 0, 0);
+            this.Position = new Vector3(0, 3, 10);
+
             this.Rotation = Quaternion.Identity;
 
             this.Rotation *= Quaternion.CreateFromAxisAngle(Vector3.Up, MathHelper.ToRadians(180));
