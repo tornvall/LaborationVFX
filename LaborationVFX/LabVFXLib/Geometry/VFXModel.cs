@@ -6,10 +6,32 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace LabVFXLib.Geometry {
     public class VFXModel : AModel{
-        private List<MeshAccess> translucentMeshes = new List<MeshAccess>();
-        private List<MeshAccess> opaqueMeshes = new List<MeshAccess>();
+        private List<MeshAccess> _translucentMeshes;
+        private List<MeshAccess> _opaqueMeshes;
 
 
+        public VFXModel(Model model) {
+            _translucentMeshes = new List<MeshAccess>();
+            _opaqueMeshes = new List<MeshAccess>();
+
+
+
+        }
+
+
+
+
+        public override void Draw(Transparency transparency) {
+            if(transparency == Transparency.Translucent) {
+                DrawMeshes(_translucentMeshes);
+            } else {
+                DrawMeshes(_opaqueMeshes);
+            }
+        }
+
+        private void DrawMeshes(List<MeshAccess> meshes) {
+
+        }
 
         private struct MeshAccess {
             public int MeshId;

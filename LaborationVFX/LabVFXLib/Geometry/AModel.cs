@@ -5,5 +5,9 @@ using System.Text;
 
 namespace LabVFXLib.Geometry {
     public abstract class AModel {
+
+
+
+        public abstract void Draw(Transparency transparency);
     }
 }
