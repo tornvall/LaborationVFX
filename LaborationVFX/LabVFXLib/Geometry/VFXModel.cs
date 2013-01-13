@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace LabVFXLib.Geometry {
-    public class VFXModel : AModel{
+    public class VFXModel : AbstractModel{
         private List<MeshAccess> _translucentMeshes;
         private List<MeshAccess> _opaqueMeshes;
 
