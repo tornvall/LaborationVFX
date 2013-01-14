@@ -23,5 +23,41 @@ namespace LabVFXLib.Effects {
                     this.Parameters["FogColor"].SetValue(this._fog.Color);
             }
         }
+
+        public bool FogEnabled {
+            get {
+                return this._fog.Enabled;
+            }
+            set {
+                this._fog.Enabled = value;
+                if(this.Parameters["FogEnabled"] == null)
+                    return;
+                this.Parameters["FogEnabled"].SetValue(this._fog.Enabled ? 1f : 0.0f);
+            }
+        }
+
+        public float FogEnd {
+            get {
+                return this._fog.End;
+            }
+            set {
+                this._fog.End = value;
+                if(this.Parameters["FogEnd"] == null)
+                    return;
+                this.Parameters["FogEnd"].SetValue(this._fog.End);
+            }
+        }
+
+        public float FogStart {
+            get {
+                return this._fog.Start;
+            }
+            set {
+                this._fog.Start = value;
+                if(this.Parameters["FogStart"] == null)
+                    return;
+                this.Parameters["FogStart"].SetValue(this._fog.Start);
+            }
+        }
     }
 }
