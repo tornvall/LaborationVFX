@@ -7,20 +7,20 @@ using Microsoft.Xna.Framework;
 
 namespace LabVFXLib.Effects {
     class VFXEffect : Effect {
-        private FogProperties fog;
+        private FogProperties _fog;
 
 
 
         public Vector3 FogColor {
             get {
-                return this.fog.Color;
+                return this._fog.Color;
             }
             set {
-                this.fog.Color = value;
+                this._fog.Color = value;
                 if(this.Parameters["FogColor"] == null)
                     return;
                 else
-                    this.Parameters["FogColor"].SetValue(this.fog.Color);
+                    this.Parameters["FogColor"].SetValue(this._fog.Color);
             }
         }
     }
