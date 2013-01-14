@@ -9,17 +9,15 @@ namespace LabVFXLib.Geometry {
         private List<MeshAccess> _translucentMeshes;
         private List<MeshAccess> _opaqueMeshes;
 
+        private List<Boolean> isVisible;
+        private List<Boolean> isDoubleSided;
+        
 
         public VFXModel(Model model) {
             _translucentMeshes = new List<MeshAccess>();
             _opaqueMeshes = new List<MeshAccess>();
 
-
-
         }
-
-
-
 
         public override void Draw(Transparency transparency) {
             if(transparency == Transparency.Translucent) {

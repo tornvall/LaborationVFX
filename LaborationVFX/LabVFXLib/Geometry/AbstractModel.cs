@@ -23,14 +23,14 @@ namespace LabVFXLib.Geometry {
             }
         }
 
-        public bool Visible { get; set; }
+        public Boolean IsVisible { get; set; }
         #endregion
 
         protected AbstractModel() {
             _world = Matrix.Identity;
             _rotation = Quaternion.Identity;
 
-            Visible = true;
+            IsVisible = true;
         }
 
         public abstract void Draw(Transparency transparency);

@@ -92,6 +92,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Effects\Fog.cs" />
+    <Compile Include="Effects\VFXEffect.cs" />
     <Compile Include="Geometry\AbstractModel.cs" />
     <Compile Include="Geometry\VFXModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
