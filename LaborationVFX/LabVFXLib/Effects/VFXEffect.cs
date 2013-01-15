@@ -6,8 +6,12 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 
 namespace LabVFXLib.Effects {
-    class VFXEffect : Effect {
+    public class VFXEffect : Effect {
         private FogProperties _fog;
+
+        public VFXEffect(Effect clone):base(clone)
+        {
+        }
 
 
 
