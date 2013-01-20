@@ -40,6 +40,6 @@ namespace LabVFXLib.Geometry {
             _visible = true;
         }
 
-        public abstract void Draw(Transparency transparency);
+        public abstract void Draw(Transparency transparency, Matrix view, Matrix projection);
     }
 }

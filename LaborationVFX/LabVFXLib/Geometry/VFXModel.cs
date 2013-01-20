@@ -15,9 +15,11 @@ namespace LabVFXLib.Geometry {
         private List<Boolean> _isDoubleSided;
         private Matrix[] _meshTransform;
         private VFXEffect _effect;
+        private GraphicsDevice _device;
 
-        public VFXModel(Model model, VFXEffect effect):base(model) {
+        public VFXModel(GraphicsDevice device, Model model, VFXEffect effect):base(model) {
             _effect = effect;
+            _device = device;
             _translucentMeshes = new List<AccessMesh>();
             _opaqueMeshes = new List<AccessMesh>();
             _isVisible = new List<Boolean>();
@@ -74,16 +76,50 @@ namespace LabVFXLib.Geometry {
             return result;
         }
 
-        public override void Draw(Transparency transparency) {
-            if(transparency == Transparency.Translucent) {
-                DrawMeshes(_translucentMeshes);
-            } else {
-                DrawMeshes(_opaqueMeshes);
+        public override void Draw(Transparency transparency, Matrix view, Matrix projection) {
+            if(_visible) {
+                if(transparency == Transparency.Translucent) {
+                    DrawMeshes(_translucentMeshes, view, projection);
+                } else {
+                    DrawMeshes(_opaqueMeshes, view, projection);
+                }
             }
         }
 
-        private void DrawMeshes(List<AccessMesh> meshes) {
+        private void DrawMeshes(List<AccessMesh> meshes,Matrix view, Matrix projection) {
+            foreach(AccessMesh am in meshes) {
+                if(_isVisible.ElementAt(am.MeshId)) {
+                    if(_isDoubleSided.ElementAt(am.MeshId)) {
+                        _device.RasterizerState = RasterizerState.CullNone;
+                        foreach(ModelMeshPart part in am.Mesh.MeshParts)
+                            this.DrawMeshPart(am, part, view, projection);
+                        _device.RasterizerState = RasterizerState.CullCounterClockwise;
+                    } else {
+                        foreach(ModelMeshPart part in am.Mesh.MeshParts)
+                            this.DrawMeshPart(am, part, view, projection);
+                    }
+                }
+            }
+        }
 
+
+        private void DrawMeshPart(AccessMesh am, ModelMeshPart modelMeshPart,Matrix view, Matrix projection) {
+            if(modelMeshPart.Effect is IEffectMatrices) {
+                IEffectMatrices effectMatrices = modelMeshPart.Effect as IEffectMatrices;
+                effectMatrices.Projection = projection;
+                effectMatrices.View = view;
+                effectMatrices.World = _meshTransform[am.MeshId]
+                    * (_model.Meshes)[am.MeshId].ParentBone.Transform
+                    * Matrix.CreateTranslation(_position);
+            }
+
+            _device.SetVertexBuffer(modelMeshPart.VertexBuffer);
+            _device.Indices = modelMeshPart.IndexBuffer;
+            foreach(EffectPass effectPass in modelMeshPart.Effect.CurrentTechnique.Passes) {
+                effectPass.Apply();
+                _device.DrawIndexedPrimitives(PrimitiveType.TriangleList, modelMeshPart.VertexOffset,
+                    modelMeshPart.StartIndex, modelMeshPart.NumVertices, modelMeshPart.StartIndex, modelMeshPart.PrimitiveCount);
+            }
         }
 
         private struct AccessMesh {
