@@ -14,9 +14,10 @@ namespace LabVFXLib.Geometry {
         private List<Boolean> _isVisible;
         private List<Boolean> _isDoubleSided;
         private Matrix[] _meshTransform;
-        
+        private VFXEffect _effect;
 
-        public VFXModel(Model model):base(model) {
+        public VFXModel(Model model, VFXEffect effect):base(model) {
+            _effect = effect;
             _translucentMeshes = new List<AccessMesh>();
             _opaqueMeshes = new List<AccessMesh>();
             _isVisible = new List<Boolean>();
@@ -42,11 +43,32 @@ namespace LabVFXLib.Geometry {
             }
         }
 
-        private bool PartIsTranslucent(ModelMeshPart part) {
+        private void SetupEffect() {
+            foreach(ModelMesh modelMesh in _model.Meshes) {
+                foreach(ModelMeshPart modelMeshPart in modelMesh.MeshParts) {
+                    if(modelMeshPart.Effect is BasicEffect) {
+                        BasicEffect basicEffect = (BasicEffect)modelMeshPart.Effect ;
+                        modelMeshPart.Effect = _effect.Clone();
+                        VFXEffect modelEffect = (VFXEffect)modelMeshPart.Effect;
+
+                        modelEffect.Alpha = basicEffect.Alpha;
+                        modelEffect.DiffuseColor = basicEffect.DiffuseColor;
+                        modelEffect.SpecularColor = basicEffect.SpecularColor;
+                        modelEffect.SpecularPower = basicEffect.SpecularPower;
+                        if(basicEffect.Texture != null)
+                            modelEffect.DiffuseTexture = basicEffect.Texture;
+                    } else {
+                        modelMeshPart.Effect = (Effect)_effect;
+                    }
+                }
+            }
+        }
+
+        private bool PartIsTranslucent(ModelMeshPart modelMeshPart) {
             bool result = false;
 
-            if(part.Effect is BasicEffect){
-             if((double)((BasicEffect)part.Effect).Alpha < 1.0 || (double)((VFXEffect)part.Effect).Alpha < 1.0)   
+            if(modelMeshPart.Effect is BasicEffect){
+             if((double)((BasicEffect)modelMeshPart.Effect).Alpha < 1.0 || (double)((VFXEffect)modelMeshPart.Effect).Alpha < 1.0)   
                  result = true;
             }
             return result;
