@@ -11,6 +11,8 @@ using Microsoft.Xna.Framework.Media;
 using LaborationVFX.Components.Input;
 using LaborationVFX.Components;
 using LaborationVFX.Entities;
+using LabVFXLib.Geometry;
+using LabVFXLib.Effects;
 
 namespace LaborationVFX {
     /// <summary>
@@ -30,6 +32,11 @@ namespace LaborationVFX {
         #region TEST
         private Ground ground;
         SimplePlane simplePlane;
+        #endregion
+
+        #region LabVFXLib
+        VFXModel vfxModel;
+        VFXEffect vfxEffect;
         #endregion
 
         public Game1() {
@@ -64,6 +71,11 @@ namespace LaborationVFX {
             entities = new List<AbstractEntity>();
             //entities.Add(new SimplePlane(GraphicsDevice, new Vector3(0, 0, 0), Quaternion.Identity, 1f));
             entities.Add(new Ground(GraphicsDevice, new Vector3(0, 0, 0), Quaternion.Identity, 1f));
+
+
+            //BasicEffect effectbase = new BasicEffect(GraphicsDevice);
+            //vfxEffect = new VFXEffect(effectbase);
+            //vfxModel = new VFXModel(Content.Load<Model>("snowplow"), vfxEffect);
 
             base.Initialize();
         }

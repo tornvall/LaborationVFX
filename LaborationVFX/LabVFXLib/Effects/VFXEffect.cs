@@ -132,5 +132,13 @@ namespace LabVFXLib.Effects {
         public VFXEffect(Effect clone)
             : base(clone) {
         }
+
+        public override Effect Clone() {
+            return (Effect)new VFXEffect((Effect)this) {
+                DiffuseColor = _diffuseColor,
+                SpecularColor = _specularColor,
+                SpecularPower = _specularPower
+            };
+        }
     }
 }

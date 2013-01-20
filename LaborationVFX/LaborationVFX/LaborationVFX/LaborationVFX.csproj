@@ -91,6 +91,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\LabVFXLib\LabVFXLib.csproj">
+      <Project>{195333A2-B2A7-42EB-8D91-04D560CEADB8}</Project>
+      <Name>LabVFXLib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LaborationVFXContent\LaborationVFXContent.contentproj">
       <Name>LaborationVFXContent</Name>
       <XnaReferenceType>Content</XnaReferenceType>
