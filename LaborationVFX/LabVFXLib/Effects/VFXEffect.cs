@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 
 namespace LabVFXLib.Effects {
-    public class VFXEffect : Effect {
+    public class VFXEffect : Effect, IEffectMatrices {
         #region Fields
         private FogProperties _fog;
         private float _alpha;
@@ -14,7 +14,9 @@ namespace LabVFXLib.Effects {
         private Vector3 _diffuseColor;
         private Vector3 _specularColor;
         private Texture2D _diffuseTexture;
-
+        private EffectParameter _projection;
+        private EffectParameter _view;
+        private EffectParameter _world;
         #endregion
 
         #region Properties
@@ -140,5 +142,36 @@ namespace LabVFXLib.Effects {
                 SpecularPower = _specularPower
             };
         }
+
+        public Matrix Projection {
+            get {
+                return _projection.GetValueMatrix();
+            }
+            set {
+                if(_projection != null)
+                    _projection.SetValue(value);                
+            }
+        }
+
+        public Matrix View {
+            get {
+                return _view.GetValueMatrix();
+            }
+            set {
+                if(_view != null)
+                    _view.SetValue(value);                
+            }
+        }
+
+        public Matrix World {
+            get {
+                return _world.GetValueMatrix();
+            }
+            set {
+                if(_world != null)                    
+                    _world.SetValue(value);
+            }
+        }
+        
     }
 }
