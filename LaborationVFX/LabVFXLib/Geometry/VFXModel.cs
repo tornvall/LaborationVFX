@@ -19,6 +19,8 @@ namespace LabVFXLib.Geometry {
         public VFXModel(Model model):base(model) {
             _translucentMeshes = new List<AccessMesh>();
             _opaqueMeshes = new List<AccessMesh>();
+            _isVisible = new List<Boolean>();
+            _isDoubleSided = new List<Boolean>();
 
             _meshTransform = new Matrix[_model.Meshes.Count];
 
