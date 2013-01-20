@@ -3,20 +3,51 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
+using LabVFXLib.Effects;
 
 namespace LabVFXLib.Geometry {
     public class VFXModel : AbstractModel{
-        private List<MeshAccess> _translucentMeshes;
-        private List<MeshAccess> _opaqueMeshes;
+        private List<AccessMesh> _translucentMeshes;
+        private List<AccessMesh> _opaqueMeshes;
 
-        private List<Boolean> isVisible;
-        private List<Boolean> isDoubleSided;
+        private List<Boolean> _isVisible;
+        private List<Boolean> _isDoubleSided;
+        private Matrix[] _meshTransform;
         
 
-        public VFXModel(Model model) {
-            _translucentMeshes = new List<MeshAccess>();
-            _opaqueMeshes = new List<MeshAccess>();
+        public VFXModel(Model model):base(model) {
+            _translucentMeshes = new List<AccessMesh>();
+            _opaqueMeshes = new List<AccessMesh>();
 
+            _meshTransform = new Matrix[_model.Meshes.Count];
+
+        }
+
+        private void SetupModel() {
+            for(int i = 0; i < _meshTransform.Length; i++) {
+                _isVisible.Add(true);
+                _meshTransform[i] = Matrix.Identity;
+            }
+            for(int id = 0; id < _model.Meshes.Count; id++) {
+                ModelMesh mesh = _model.Meshes[id];
+                foreach(ModelMeshPart part in mesh.MeshParts) {
+                    if(PartIsTranslucent(part)) {
+                        this._translucentMeshes.Add(new AccessMesh(id, mesh));
+                        break;
+                    }
+                }
+            }
+        }
+
+        private bool PartIsTranslucent(ModelMeshPart part) {
+            bool result = false;
+
+            if(part.Effect is BasicEffect){
+             if((double)((BasicEffect)part.Effect).Alpha < 1.0 || (double)((VFXEffect)part.Effect).Alpha < 1.0)   
+                 result = true;
+            }
+            return result;
         }
 
         public override void Draw(Transparency transparency) {
@@ -27,15 +58,15 @@ namespace LabVFXLib.Geometry {
             }
         }
 
-        private void DrawMeshes(List<MeshAccess> meshes) {
+        private void DrawMeshes(List<AccessMesh> meshes) {
 
         }
 
-        private struct MeshAccess {
+        private struct AccessMesh {
             public int MeshId;
             public ModelMesh Mesh;            
 
-            public MeshAccess(int meshId, ModelMesh mesh) {
+            public AccessMesh(int meshId, ModelMesh mesh) {
                 this.MeshId = meshId;
                 Mesh = mesh;
             }

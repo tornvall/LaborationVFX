@@ -8,59 +8,69 @@ using Microsoft.Xna.Framework;
 namespace LabVFXLib.Effects {
     public class VFXEffect : Effect {
         private FogProperties _fog;
+        private float _alpha;
 
         public VFXEffect(Effect clone):base(clone)
         {
         }
 
-
+        public float Alpha {
+            get {
+                return _alpha;
+            }
+            set {
+                _alpha = value;
+            }
+        }
 
         public Vector3 FogColor {
             get {
-                return this._fog.Color;
+                return _fog.Color;
             }
             set {
-                this._fog.Color = value;
-                if(this.Parameters["FogColor"] == null)
-                    return;
-                else
-                    this.Parameters["FogColor"].SetValue(this._fog.Color);
+                _fog.Color = value;
+                if(this.Parameters["FogColor"] != null){
+                    this.Parameters["FogColor"].SetValue(_fog.Color);
+                }
             }
         }
 
         public bool FogEnabled {
             get {
-                return this._fog.Enabled;
+                return _fog.Enabled;
             }
             set {
-                this._fog.Enabled = value;
-                if(this.Parameters["FogEnabled"] == null)
-                    return;
-                this.Parameters["FogEnabled"].SetValue(this._fog.Enabled ? 1f : 0.0f);
+                _fog.Enabled = value;
+                if(this.Parameters["FogEnabled"] != null) {
+                    if(_fog.Enabled)
+                        this.Parameters["FogEnabled"].SetValue(1f);
+                    else
+                        this.Parameters["FogEnabled"].SetValue(0f);
+                }
             }
         }
 
         public float FogEnd {
             get {
-                return this._fog.End;
+                return _fog.End;
             }
             set {
-                this._fog.End = value;
-                if(this.Parameters["FogEnd"] == null)
-                    return;
-                this.Parameters["FogEnd"].SetValue(this._fog.End);
+                _fog.End = value;
+                if(this.Parameters["FogEnd"] != null) {                 
+                    this.Parameters["FogEnd"].SetValue(_fog.End);
+                }
             }
         }
 
         public float FogStart {
             get {
-                return this._fog.Start;
+                return _fog.Start;
             }
             set {
-                this._fog.Start = value;
-                if(this.Parameters["FogStart"] == null)
-                    return;
-                this.Parameters["FogStart"].SetValue(this._fog.Start);
+                _fog.Start = value;
+                if(this.Parameters["FogStart"] != null) {
+                    this.Parameters["FogStart"].SetValue(_fog.Start);
+                }
             }
         }
     }
