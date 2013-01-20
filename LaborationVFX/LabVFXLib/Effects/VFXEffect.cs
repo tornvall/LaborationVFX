@@ -133,6 +133,9 @@ namespace LabVFXLib.Effects {
 
         public VFXEffect(Effect clone)
             : base(clone) {
+            _projection = this.Parameters["Projection"];
+            _view = this.Parameters["View"];
+            _world = this.Parameters["World"];
         }
 
         public override Effect Clone() {
