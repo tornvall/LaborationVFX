@@ -5,9 +5,10 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using LabVFXLib.Effects;
+using Microsoft.Xna.Framework.Content;
 
 namespace LabVFXLib.Geometry {
-    public class VFXModel : AbstractModel{
+    public class VFXModel : AbstractModel, IAbstractEntity {
         private List<AccessMesh> _translucentMeshes;
         private List<AccessMesh> _opaqueMeshes;
 
@@ -154,6 +155,19 @@ namespace LabVFXLib.Geometry {
                     }
                 }
             }
+        }
+
+        public void LoadContent(ContentManager content)
+        {
+
+        }
+        public void Update(GameTime gameTime)
+        {
+
+        }
+        public void Draw(BasicEffect effect, Matrix parentWorld)
+        {
+
         }
     }
 }

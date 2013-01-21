@@ -13,6 +13,7 @@ using LaborationVFX.Components;
 using LaborationVFX.Entities;
 using LabVFXLib.Geometry;
 using LabVFXLib.Effects;
+using LabVFXLib;
 
 namespace LaborationVFX {
     /// <summary>
@@ -27,7 +28,7 @@ namespace LaborationVFX {
 
         private BasicEffect effect;
         private Matrix world;
-        List<AbstractModel> entities;
+        List<IAbstractEntity> entities;
 
         #region TEST
         private Ground ground;
@@ -68,9 +69,9 @@ namespace LaborationVFX {
             Components.Add(ip);
             Services.AddService(typeof(IInputHandler), ip);
 
-            entities = new List<AbstractModel>();
+            entities = new List<IAbstractEntity>();
             //entities.Add(new SimplePlane(GraphicsDevice, new Vector3(0, 0, 0), Quaternion.Identity, 1f));
-            //entities.Add(new Ground(GraphicsDevice, new Vector3(0, 0, 0), Quaternion.Identity, 1f));
+            entities.Add(new Ground(GraphicsDevice, new Vector3(0, 0, 0), Quaternion.Identity, 1f));
 
 
             //BasicEffect effectbase = new BasicEffect(GraphicsDevice);
@@ -89,9 +90,9 @@ namespace LaborationVFX {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             effect = new BasicEffect(GraphicsDevice);
 
-            foreach (AbstractModel entity in entities)
+            foreach (IAbstractEntity entity in entities)
             {
-                //entity.LoadContent(this.Content);
+                entity.LoadContent(this.Content);
             }
 
             //simplePlane = new SimplePlane(GraphicsDevice, Vector3.Zero, Quaternion.Identity, 1f);
@@ -125,9 +126,9 @@ namespace LaborationVFX {
             //To make the camera mov   
             camera.Update(fcamera.Position, fcamera.Rotation);
 
-            foreach (AbstractModel entity in entities)
+            foreach (IAbstractEntity entity in entities)
             {
-                //entity.Update(gameTime);
+                entity.Update(gameTime);
             }
 
             base.Update(gameTime);
@@ -161,9 +162,9 @@ namespace LaborationVFX {
 
             Matrix parent = Matrix.Identity;
 
-            foreach (AbstractModel entity in entities)
+            foreach (IAbstractEntity entity in entities)
             {
-                //entity.Draw(effect, parent);
+                entity.Draw(effect, parent);
             }
 
             //simplePlane.Draw(effect, parent);

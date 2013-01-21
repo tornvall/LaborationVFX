@@ -96,6 +96,7 @@
     <Compile Include="Effects\VFXEffect.cs" />
     <Compile Include="Geometry\AbstractModel.cs" />
     <Compile Include="Geometry\VFXModel.cs" />
+    <Compile Include="IAbstractEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Transparency.cs" />
   </ItemGroup>
