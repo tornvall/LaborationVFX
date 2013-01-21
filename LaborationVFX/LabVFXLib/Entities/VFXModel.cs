@@ -27,6 +27,8 @@ namespace LabVFXLib.Geometry {
 
             _meshTransform = new Matrix[_model.Meshes.Count];
 
+            this.SetupModel();
+            this.SetupEffect();
         }
 
         private void SetupModel() {
@@ -70,19 +72,23 @@ namespace LabVFXLib.Geometry {
             bool result = false;
 
             if(modelMeshPart.Effect is BasicEffect){
-             if((double)((BasicEffect)modelMeshPart.Effect).Alpha < 1.0 || (double)((VFXEffect)modelMeshPart.Effect).Alpha < 1.0)   
+                if((double)((BasicEffect)modelMeshPart.Effect).Alpha < 1.0)   //|| (double)((VFXEffect)modelMeshPart.Effect).Alpha < 1.0
                  result = true;
             }
             return result;
         }
 
-        public override void Draw(Transparency transparency, Matrix view, Matrix projection) {
+        public override void Draw(Matrix view, Matrix projection) {
             if(_visible) {
-                if(transparency == Transparency.Translucent) {
-                    DrawMeshes(_translucentMeshes, view, projection);
-                } else {
-                    DrawMeshes(_opaqueMeshes, view, projection);
-                }
+                //Draw all opaque
+                _device.BlendState = BlendState.Opaque;
+                _device.DepthStencilState = DepthStencilState.Default;
+                this.DrawMeshes(_opaqueMeshes, view, projection);
+
+                //Draw all translucent
+                _device.BlendState = BlendState.AlphaBlend;
+                _device.DepthStencilState = DepthStencilState.DepthRead;
+                this.DrawMeshes(_translucentMeshes, view, projection);
             }
         }
 
