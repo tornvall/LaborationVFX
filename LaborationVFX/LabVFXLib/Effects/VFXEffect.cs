@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 
 namespace LabVFXLib.Effects {
-    public class VFXEffect : Effect, IEffectMatrices {
+    public class VFXEffect : Effect, IEffectFog, IEffectMatrices, IEffectLights {
         #region Fields
         private FogProperties _fog;
         private float _alpha;
@@ -17,6 +17,7 @@ namespace LabVFXLib.Effects {
         private EffectParameter _projection;
         private EffectParameter _view;
         private EffectParameter _world;
+        private DirectionalLight _directionalLight;
         #endregion
 
         #region Properties
@@ -163,7 +164,51 @@ namespace LabVFXLib.Effects {
                 SpecularColor = _specularColor,
                 SpecularPower = _specularPower
             };
-        }        
-        
+        }
+
+
+        public Vector3 AmbientLightColor {
+            get {
+                throw new NotImplementedException();
+            }
+            set {
+                throw new NotImplementedException();
+            }
+        }
+
+        public DirectionalLight DirectionalLight0 {
+            get {
+                return _directionalLight;
+            }
+            set {
+                _directionalLight.DiffuseColor = value.DiffuseColor;
+                _directionalLight.Direction = value.Direction;
+                _directionalLight.Enabled = value.Enabled;
+                _directionalLight.SpecularColor = value.SpecularColor;
+            }
+        }
+
+        public DirectionalLight DirectionalLight1 {
+            get { throw new NotImplementedException(); }
+        }
+
+        public DirectionalLight DirectionalLight2 {
+            get { throw new NotImplementedException(); }
+        }
+
+        public void EnableDefaultLighting() {
+            throw new NotImplementedException();
+        }
+
+        public bool LightingEnabled {
+            get {
+                throw new NotImplementedException();
+            }
+            set {
+                throw new NotImplementedException();
+            }
+        }
+
+      
     }
 }

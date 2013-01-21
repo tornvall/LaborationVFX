@@ -131,5 +131,29 @@ namespace LabVFXLib.Geometry {
                 Mesh = mesh;
             }
         }
+
+        public void SetLighting(VFXEffect baseEffect) {
+            foreach(ModelMesh modelMesh in _model.Meshes) {
+                foreach(Effect effect in modelMesh.Effects) {
+                    if(typeof(IEffectFog).Equals(effect)) {
+                        IEffectFog fogEffect = (IEffectFog)effect;
+                        fogEffect.FogColor = baseEffect.FogColor;
+                        fogEffect.FogEnabled = baseEffect.FogEnabled;
+                        fogEffect.FogStart = baseEffect.FogStart;
+                        fogEffect.FogEnd = baseEffect.FogEnd;
+                    }
+                    if(typeof(IEffectLights).Equals(effect)) {
+                        IEffectLights lightEffect = (IEffectLights)effect;
+                        //lightEffect.AmbientLightColor = baseEffect.AmbientLight;
+                        lightEffect.LightingEnabled = true;
+                        lightEffect.DirectionalLight0.Direction = baseEffect.DirectionalLight0.Direction;
+                        lightEffect.DirectionalLight0.DiffuseColor = baseEffect.DirectionalLight0.DiffuseColor;
+                        lightEffect.DirectionalLight0.Enabled = true;
+                        lightEffect.DirectionalLight0.SpecularColor = baseEffect.DirectionalLight0.SpecularColor;                       
+                        
+                    }
+                }
+            }
+        }
     }
 }
