@@ -187,10 +187,9 @@ namespace LabVFXLib.Effects {
 
         public bool LightingEnabled {
             get {
-                throw new NotImplementedException();
+                return true;
             }
             set {
-                throw new NotImplementedException();
             }
         }
         #endregion
