@@ -28,7 +28,8 @@ namespace LaborationVFX {
 
         private BasicEffect effect;
         private Matrix world;
-        List<IAbstractEntity> entities;
+        List<AbstractEntity> entities;
+        List<AbstractModel> models;
 
         #region TEST
         private Ground ground;
@@ -69,14 +70,8 @@ namespace LaborationVFX {
             Components.Add(ip);
             Services.AddService(typeof(IInputHandler), ip);
 
-            entities = new List<IAbstractEntity>();
-            //entities.Add(new SimplePlane(GraphicsDevice, new Vector3(0, 0, 0), Quaternion.Identity, 1f));
-            entities.Add(new Ground(GraphicsDevice, new Vector3(0, 0, 0), Quaternion.Identity, 1f));
-
-
-            //BasicEffect effectbase = new BasicEffect(GraphicsDevice);
-            //vfxEffect = new VFXEffect(effectbase);
-            //vfxModel = new VFXModel(Content.Load<Model>("snowplow"), vfxEffect);
+            entities = new List<AbstractEntity>();
+            models = new List<AbstractModel>();
 
             base.Initialize();
         }
@@ -89,6 +84,13 @@ namespace LaborationVFX {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             effect = new BasicEffect(GraphicsDevice);
+            //entities.Add(new SimplePlane(GraphicsDevice, new Vector3(0, 0, 0), Quaternion.Identity, 1f));
+            entities.Add(new Ground(GraphicsDevice, new Vector3(0, 0, 0), Quaternion.Identity, 1f));
+
+
+            //BasicEffect effectbase = new BasicEffect(GraphicsDevice);
+            //vfxEffect = new VFXEffect(effectbase);
+            //vfxModel = new VFXModel(Content.Load<Model>("snowplow"), vfxEffect);
 
             foreach (IAbstractEntity entity in entities)
             {
@@ -126,9 +128,14 @@ namespace LaborationVFX {
             //To make the camera mov   
             camera.Update(fcamera.Position, fcamera.Rotation);
 
-            foreach (IAbstractEntity entity in entities)
+            foreach (AbstractEntity entity in entities)
             {
                 entity.Update(gameTime);
+            }
+
+            foreach (AbstractModel model in models)
+            {
+                //model.Update
             }
 
             base.Update(gameTime);
@@ -162,9 +169,13 @@ namespace LaborationVFX {
 
             Matrix parent = Matrix.Identity;
 
-            foreach (IAbstractEntity entity in entities)
+            foreach (AbstractEntity entity in entities)
             {
                 entity.Draw(effect, parent);
+            }
+            foreach (AbstractModel model in models)
+            {
+                //model.Draw();
             }
 
             //simplePlane.Draw(effect, parent);
