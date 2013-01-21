@@ -212,8 +212,10 @@ namespace LabVFXLib.Effects {
             return (Effect)new VFXEffect((Effect)this) {
                 DiffuseColor = _diffuseColor,
                 SpecularColor = _specularColor,
-                SpecularPower = _specularPower
-            };
+                SpecularPower = _specularPower,
+                AmbientLightColor = _ambientLightColor,                                       
+                DirectionalLight0 = _directionalLight,
+            };            
         }              
     }
 }
