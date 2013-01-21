@@ -144,7 +144,7 @@ namespace LabVFXLib.Geometry {
                     }
                     if(typeof(IEffectLights).Equals(effect)) {
                         IEffectLights lightEffect = (IEffectLights)effect;
-                        //lightEffect.AmbientLightColor = baseEffect.AmbientLight;
+                        lightEffect.AmbientLightColor = baseEffect.AmbientLightColor;
                         lightEffect.LightingEnabled = true;
                         lightEffect.DirectionalLight0.Direction = baseEffect.DirectionalLight0.Direction;
                         lightEffect.DirectionalLight0.DiffuseColor = baseEffect.DirectionalLight0.DiffuseColor;

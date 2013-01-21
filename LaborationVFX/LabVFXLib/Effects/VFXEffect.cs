@@ -18,6 +18,7 @@ namespace LabVFXLib.Effects {
         private EffectParameter _view;
         private EffectParameter _world;
         private DirectionalLight _directionalLight;
+        private Vector3 _ambientLightColor;
         #endregion
 
         #region Properties
@@ -114,11 +115,11 @@ namespace LabVFXLib.Effects {
                 _diffuseTexture = value;
                 if(this.Parameters["DiffuseTexture"] != null)
                     this.Parameters["DiffuseTexture"].SetValue((Texture)_diffuseTexture);
-                if(this.Parameters["UseDiffuseTexture"] != null) {
+                if(this.Parameters["DiffuseTextureEnabled"] != null) {
                     if(_diffuseTexture != null)
-                        this.Parameters["UseDiffuseTexture"].SetValue(true);
+                        this.Parameters["DiffuseTextureEnabled"].SetValue(true);
                     else
-                        this.Parameters["UseDiffuseTexture"].SetValue(false);
+                        this.Parameters["DiffuseTextureEnabled"].SetValue(false);
                 }
             }
         }
@@ -149,30 +150,14 @@ namespace LabVFXLib.Effects {
                     _world.SetValue(value);
             }
         }
-        #endregion
-
-        public VFXEffect(Effect cloneSource)
-            : base(cloneSource) {
-            _projection = this.Parameters["Projection"];
-            _view = this.Parameters["View"];
-            _world = this.Parameters["World"];
-        }
-
-        public override Effect Clone() {
-            return (Effect)new VFXEffect((Effect)this) {
-                DiffuseColor = _diffuseColor,
-                SpecularColor = _specularColor,
-                SpecularPower = _specularPower
-            };
-        }
-
-
         public Vector3 AmbientLightColor {
             get {
-                throw new NotImplementedException();
+                return _ambientLightColor;
             }
             set {
-                throw new NotImplementedException();
+                _ambientLightColor = value;
+                if(this.Parameters["AmbientLightColor"] != null)
+                    this.Parameters["AmbientLightColor"].SetValue(_ambientLightColor);
             }
         }
 
@@ -208,7 +193,27 @@ namespace LabVFXLib.Effects {
                 throw new NotImplementedException();
             }
         }
+        #endregion
 
-      
+        public VFXEffect(Effect cloneSource)
+            : base(cloneSource) {
+            _projection = this.Parameters["Projection"];
+            _view = this.Parameters["View"];
+            _world = this.Parameters["World"];
+            _directionalLight = new DirectionalLight(
+                this.Parameters["DirectionalLightDirection"],
+                this.Parameters["DirectionalLightDiffuseColor"],
+                this.Parameters["DirectionalLightSpecularColor"],
+                (DirectionalLight)null);
+            _directionalLight.Enabled = true;
+        }
+
+        public override Effect Clone() {
+            return (Effect)new VFXEffect((Effect)this) {
+                DiffuseColor = _diffuseColor,
+                SpecularColor = _specularColor,
+                SpecularPower = _specularPower
+            };
+        }              
     }
 }
