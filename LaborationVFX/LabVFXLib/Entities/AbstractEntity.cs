@@ -9,7 +9,7 @@ using LabVFXLib;
 
 namespace LaborationVFX.Entities
 {
-    public abstract class AbstractEntity : IAbstractEntity
+    public abstract class AbstractEntity
     {
         #region Fields
         private List<AbstractEntity> children;     

@@ -94,9 +94,9 @@
   <ItemGroup>
     <Compile Include="Effects\FogProperties.cs" />
     <Compile Include="Effects\VFXEffect.cs" />
-    <Compile Include="Geometry\AbstractModel.cs" />
-    <Compile Include="Geometry\VFXModel.cs" />
-    <Compile Include="IAbstractEntity.cs" />
+    <Compile Include="Entities\AbstractEntity.cs" />
+    <Compile Include="Entities\AbstractModel.cs" />
+    <Compile Include="Entities\VFXModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Transparency.cs" />
   </ItemGroup>

@@ -77,7 +77,6 @@
     <Compile Include="Components\Input\ActionType.cs" />
     <Compile Include="Components\Input\InputHandler.cs" />
     <Compile Include="Components\Input\UserAction.cs" />
-    <Compile Include="Entities\AbstractEntity.cs" />
     <Compile Include="Entities\Concrete\Ground.cs" />
     <Compile Include="Entities\Concrete\Jeep.cs" />
     <Compile Include="Entities\Concrete\Sphere.cs" />

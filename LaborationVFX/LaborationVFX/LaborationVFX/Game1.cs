@@ -92,10 +92,11 @@ namespace LaborationVFX {
             //vfxEffect = new VFXEffect(effectbase);
             //vfxModel = new VFXModel(Content.Load<Model>("snowplow"), vfxEffect);
 
-            foreach (IAbstractEntity entity in entities)
+            foreach (AbstractEntity entity in entities)
             {
                 entity.LoadContent(this.Content);
             }
+            // TODO: Models?
 
             //simplePlane = new SimplePlane(GraphicsDevice, Vector3.Zero, Quaternion.Identity, 1f);
 
