@@ -27,7 +27,7 @@ namespace LaborationVFX {
 
         private BasicEffect effect;
         private Matrix world;
-        List<AbstractEntity> entities;
+        List<AbstractModel> entities;
 
         #region TEST
         private Ground ground;
@@ -68,9 +68,9 @@ namespace LaborationVFX {
             Components.Add(ip);
             Services.AddService(typeof(IInputHandler), ip);
 
-            entities = new List<AbstractEntity>();
+            entities = new List<AbstractModel>();
             //entities.Add(new SimplePlane(GraphicsDevice, new Vector3(0, 0, 0), Quaternion.Identity, 1f));
-            entities.Add(new Ground(GraphicsDevice, new Vector3(0, 0, 0), Quaternion.Identity, 1f));
+            //entities.Add(new Ground(GraphicsDevice, new Vector3(0, 0, 0), Quaternion.Identity, 1f));
 
 
             //BasicEffect effectbase = new BasicEffect(GraphicsDevice);
@@ -89,8 +89,9 @@ namespace LaborationVFX {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             effect = new BasicEffect(GraphicsDevice);
 
-            foreach(AbstractEntity entity in entities) {
-                entity.LoadContent(this.Content);
+            foreach (AbstractModel entity in entities)
+            {
+                //entity.LoadContent(this.Content);
             }
 
             //simplePlane = new SimplePlane(GraphicsDevice, Vector3.Zero, Quaternion.Identity, 1f);
@@ -124,8 +125,9 @@ namespace LaborationVFX {
             //To make the camera mov   
             camera.Update(fcamera.Position, fcamera.Rotation);
 
-            foreach(AbstractEntity entity in entities) {
-                entity.Update(gameTime);
+            foreach (AbstractModel entity in entities)
+            {
+                //entity.Update(gameTime);
             }
 
             base.Update(gameTime);
@@ -159,8 +161,9 @@ namespace LaborationVFX {
 
             Matrix parent = Matrix.Identity;
 
-            foreach(AbstractEntity entity in entities) {
-                entity.Draw(effect, parent);
+            foreach (AbstractModel entity in entities)
+            {
+                //entity.Draw(effect, parent);
             }
 
             //simplePlane.Draw(effect, parent);
