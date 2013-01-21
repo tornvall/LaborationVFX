@@ -14,6 +14,7 @@ using LaborationVFX.Entities;
 using LabVFXLib.Geometry;
 using LabVFXLib.Effects;
 using LabVFXLib;
+using LaborationVFX.Entities.Concrete;
 
 namespace LaborationVFX {
     /// <summary>
@@ -84,9 +85,9 @@ namespace LaborationVFX {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             effect = new BasicEffect(GraphicsDevice);
-            //entities.Add(new SimplePlane(GraphicsDevice, new Vector3(0, 0, 0), Quaternion.Identity, 1f));
-            entities.Add(new Ground(GraphicsDevice, new Vector3(0, 0, 0), Quaternion.Identity, 1f));
 
+            entities.Add(new Ground(GraphicsDevice, new Vector3(0, 0, 0), Quaternion.Identity, 1f));
+            models.Add(new Jeep(GraphicsDevice, Content.Load<Model>("jeep"), new VFXEffect(effect)));
 
             //BasicEffect effectbase = new BasicEffect(GraphicsDevice);
             //vfxEffect = new VFXEffect(effectbase);
