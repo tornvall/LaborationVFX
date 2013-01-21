@@ -38,7 +38,6 @@ namespace LabVFXLib.Effects {
                     this.Parameters["DiffuseColor"].SetValue(new Vector4(_diffuseColor, _alpha));
             }
         }
-
         public Vector3 FogColor {
             get {
                 return _fog.Color;
@@ -50,7 +49,6 @@ namespace LabVFXLib.Effects {
                 }
             }
         }
-
         public bool FogEnabled {
             get {
                 return _fog.Enabled;
@@ -65,7 +63,6 @@ namespace LabVFXLib.Effects {
                 }
             }
         }
-
         public float FogEnd {
             get {
                 return _fog.End;
@@ -77,7 +74,6 @@ namespace LabVFXLib.Effects {
                 }
             }
         }
-
         public float FogStart {
             get {
                 return _fog.Start;
@@ -89,7 +85,6 @@ namespace LabVFXLib.Effects {
                 }
             }
         }
-
         public float SpecularPower {
             get {
                 return _specularPower;
@@ -100,8 +95,6 @@ namespace LabVFXLib.Effects {
                     this.Parameters["SpecularPower"].SetValue(_specularPower);
             }
         }
-
-
         public Vector3 SpecularColor {
             get {
                 return _specularColor;
@@ -112,7 +105,6 @@ namespace LabVFXLib.Effects {
                     this.Parameters["SpecularColor"].SetValue(_specularColor);
             }
         }
-
         public Texture2D DiffuseTexture {
             get {
                 return _diffuseTexture;
@@ -129,10 +121,37 @@ namespace LabVFXLib.Effects {
                 }
             }
         }
+        public Matrix Projection {
+            get {
+                return _projection.GetValueMatrix();
+            }
+            set {
+                if(_projection != null)
+                    _projection.SetValue(value);
+            }
+        }
+        public Matrix View {
+            get {
+                return _view.GetValueMatrix();
+            }
+            set {
+                if(_view != null)
+                    _view.SetValue(value);
+            }
+        }
+        public Matrix World {
+            get {
+                return _world.GetValueMatrix();
+            }
+            set {
+                if(_world != null)
+                    _world.SetValue(value);
+            }
+        }
         #endregion
 
-        public VFXEffect(Effect clone)
-            : base(clone) {
+        public VFXEffect(Effect cloneSource)
+            : base(cloneSource) {
             _projection = this.Parameters["Projection"];
             _view = this.Parameters["View"];
             _world = this.Parameters["World"];
@@ -144,37 +163,7 @@ namespace LabVFXLib.Effects {
                 SpecularColor = _specularColor,
                 SpecularPower = _specularPower
             };
-        }
-
-        public Matrix Projection {
-            get {
-                return _projection.GetValueMatrix();
-            }
-            set {
-                if(_projection != null)
-                    _projection.SetValue(value);                
-            }
-        }
-
-        public Matrix View {
-            get {
-                return _view.GetValueMatrix();
-            }
-            set {
-                if(_view != null)
-                    _view.SetValue(value);                
-            }
-        }
-
-        public Matrix World {
-            get {
-                return _world.GetValueMatrix();
-            }
-            set {
-                if(_world != null)                    
-                    _world.SetValue(value);
-            }
-        }
+        }        
         
     }
 }
