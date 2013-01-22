@@ -6,13 +6,13 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 
 namespace LabVFXLib.Effects {
-    public class VFXEffect : BasicEffect{
+    public class VFXEffect : Effect, IEffectMatrices, IEffectLights, IEffectFog{
         #region Fields
         private FogProperties _fog;
         private float _alpha;
         private float _specularPower;
-        private Vector3 _diffuseColor;
-        private Vector3 _specularColor;
+        private EffectParameter _diffuseColor;
+        private EffectParameter _specularColor;
         private Texture2D _diffuseTexture;
         private EffectParameter _projection;
         private EffectParameter _view;
@@ -30,14 +30,15 @@ namespace LabVFXLib.Effects {
                 _alpha = value;
             }
         }
-        public Vector3 DiffuseColor {
+        public Vector4 DiffuseColor {
             get {
-                return _diffuseColor;
+                return _diffuseColor.GetValueVector4();
             }
             set {
-                _diffuseColor = value;
-                if(this.Parameters["DiffuseColor"] != null)
-                    this.Parameters["DiffuseColor"].SetValue(new Vector4(_diffuseColor, _alpha));
+                _diffuseColor.SetValue(value);
+                //_diffuseColor = value;
+                //if(this.Parameters["DiffuseColor"] != null)
+                  //  this.Parameters["DiffuseColor"].SetValue(new Vector4(_diffuseColor, _alpha));
             }
         }
         public Vector3 FogColor {
@@ -97,14 +98,14 @@ namespace LabVFXLib.Effects {
                     this.Parameters["SpecularPower"].SetValue(_specularPower);
             }
         }
-        public Vector3 SpecularColor {
+        public Vector4 SpecularColor {
             get {
-                return _specularColor;
+                return _specularColor.GetValueVector4();
             }
             set {
-                _specularColor = value;
-                if(this.Parameters["SpecularColor"] != null)
-                    this.Parameters["SpecularColor"].SetValue(_specularColor);
+                _specularColor.SetValue(value);
+                /*if(this.Parameters["SpecularColor"] != null)
+                    this.Parameters["SpecularColor"].SetValue(_specularColor);*/
             }
         }
         public Texture2D DiffuseTexture {
@@ -155,9 +156,9 @@ namespace LabVFXLib.Effects {
                 return _ambientLightColor;
             }
             set {
-                _ambientLightColor = value;
-                if(this.Parameters["AmbientLightColor"] != null)
-                    this.Parameters["AmbientLightColor"].SetValue(_ambientLightColor);
+                _ambientLightColor =(value);
+                //if(this.Parameters["AmbientLightColor"] != null)
+                  //  this.Parameters["AmbientLightColor"].SetValue(_ambientLightColor);
             }
         }
 
@@ -194,7 +195,7 @@ namespace LabVFXLib.Effects {
         }
         #endregion
 
-        public VFXEffect(BasicEffect cloneSource)
+        public VFXEffect(Effect cloneSource)
             : base(cloneSource) {
             _projection = this.Parameters["Projection"];
             _view = this.Parameters["View"];
@@ -204,13 +205,19 @@ namespace LabVFXLib.Effects {
                 this.Parameters["DirectionalLightDiffuseColor"],
                 this.Parameters["DirectionalLightSpecularColor"],
                 (DirectionalLight)null);
-            _directionalLight.Enabled = true;
+            _directionalLight.Enabled = true;            
+            this.Parameters["DiffuseColor"].SetValue(Vector4.Zero);
+            this.Parameters["SpecularColor"].SetValue(Vector4.Zero);
+            _diffuseColor = this.Parameters["DiffuseColor"];
+            _specularColor = this.Parameters["SpecularColor"];
+            //this.Parameters["AmbientColor"].SetValue(Vector4.Zero);
+            _ambientLightColor = Utils.Vector4toVector3(this.Parameters["AmbientColor"].GetValueVector4());
         }
 
         public override Effect Clone() {
-            return (Effect)new VFXEffect((BasicEffect)this) {
-                DiffuseColor = _diffuseColor,
-                SpecularColor = _specularColor,
+            return (Effect)new VFXEffect((Effect)this) {
+                DiffuseColor = _diffuseColor.GetValueVector4(),
+                SpecularColor = _specularColor.GetValueVector4(),
                 SpecularPower = _specularPower,
                 AmbientLightColor = _ambientLightColor,                                       
                 DirectionalLight0 = _directionalLight,

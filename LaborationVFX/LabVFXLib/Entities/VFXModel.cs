@@ -58,14 +58,38 @@ namespace LabVFXLib.Geometry {
                     if(modelMeshPart.Effect is BasicEffect) {
                         BasicEffect basicEffect = (BasicEffect)modelMeshPart.Effect;
                         modelMeshPart.Effect = _effect.Clone();
-                        ((BasicEffect)modelMeshPart.Effect).Alpha = basicEffect.Alpha;
-                        ((BasicEffect)modelMeshPart.Effect).DiffuseColor = basicEffect.DiffuseColor;
-                        ((BasicEffect)modelMeshPart.Effect).SpecularColor = basicEffect.SpecularColor;
-                        ((BasicEffect)modelMeshPart.Effect).SpecularPower = basicEffect.SpecularPower;
+                        ((VFXEffect)modelMeshPart.Effect).Alpha = basicEffect.Alpha;
+                        ((VFXEffect)modelMeshPart.Effect).DiffuseColor = new Vector4(
+                                                                basicEffect.DiffuseColor.X,
+                                                                basicEffect.DiffuseColor.Y,
+                                                                basicEffect.DiffuseColor.Z,
+                                                                0);
+                        ((VFXEffect)modelMeshPart.Effect).SpecularColor = new Vector4(
+                                                                basicEffect.SpecularColor.X,
+                                                                basicEffect.SpecularColor.Y,
+                                                                basicEffect.SpecularColor.Z,
+                                                                0);
+                        ((VFXEffect)modelMeshPart.Effect).SpecularPower = basicEffect.SpecularPower;
+                        //modelMeshPart.Effect.Parameters["SpecularColor"].SetValue(new Vector4(
+                        //                                        basicEffect.SpecularColor.X,
+                        //                                        basicEffect.SpecularColor.Y,
+                        //                                        basicEffect.SpecularColor.Z,
+                        //                                        0));
+                        //modelMeshPart.Effect.Parameters["DiffuseColor"].SetValue(new Vector4(
+                        //                basicEffect.DiffuseColor.X,
+                        //                basicEffect.DiffuseColor.Y,
+                        //                basicEffect.DiffuseColor.Z,
+                        //                0));
+                        //modelMeshPart.Effect.Parameters["AmbientLightColor"].SetValue(new Vector4(
+                        //                basicEffect.AmbientLightColor.X,
+                        //                basicEffect.AmbientLightColor.Y,
+                        //                basicEffect.AmbientLightColor.Z,
+                        //                basicEffect.Alpha));
+                        //((VFXEffect)modelMeshPart.Effect).AmbientLightColor = basicEffect.AmbientLightColor;
+                        ((VFXEffect)modelMeshPart.Effect).AmbientLightColor = basicEffect.AmbientLightColor;
                         if (basicEffect.Texture != null)
                         {
-                            ((BasicEffect)modelMeshPart.Effect).Texture = basicEffect.Texture;
-                            ((BasicEffect)modelMeshPart.Effect).TextureEnabled = true;
+                            ((VFXEffect)modelMeshPart.Effect).DiffuseTexture = basicEffect.Texture;
                         }
                     } else {
                         modelMeshPart.Effect = (Effect)_effect;
@@ -166,7 +190,7 @@ namespace LabVFXLib.Geometry {
                     }
                     if(effect is IEffectLights) {
                         IEffectLights lightEffect = (IEffectLights)effect;
-                        lightEffect.AmbientLightColor = _effect.AmbientLightColor;
+                        lightEffect.AmbientLightColor = _effect.AmbientLightColor;                        
                         lightEffect.LightingEnabled = true;
                         lightEffect.DirectionalLight0.Direction = _effect.DirectionalLight0.Direction;
                         lightEffect.DirectionalLight0.DiffuseColor = _effect.DirectionalLight0.DiffuseColor;
