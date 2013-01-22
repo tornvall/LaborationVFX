@@ -41,6 +41,13 @@ namespace LaborationVFX {
         VFXEffect vfxEffect;
         #endregion
 
+        #region Sphere
+        private Model sphereModel;
+        private Effect sphereEffect;
+        private TextureCube sphereSkyboxTexture;
+        private Sphere sphereObject;
+        #endregion
+
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -96,7 +103,14 @@ namespace LaborationVFX {
             //vfxEffect = new VFXEffect(new BasicEffect(GraphicsDevice));
             //models.Add(new Snowplow(GraphicsDevice, Content.Load<Model>("snowplow"), vfxEffect));
             models.Add(new Jeep(GraphicsDevice, Content.Load<Model>("jeep"), vfxEffect));
-            models.Add(new Sphere(GraphicsDevice, Content.Load<Model>("sphere_mapped"), vfxEffect));
+            //models.Add(new Sphere(GraphicsDevice, Content.Load<Model>("sphere_mapped"), vfxEffect));
+
+            // Sphere
+            sphereSkyboxTexture = Content.Load<TextureCube>("Skyboxes/Sunset");
+            sphereModel = Content.Load<Model>("sphere");
+            sphereEffect = Content.Load<Effect>("Effects/Reflection");
+            sphereObject = new Sphere(GraphicsDevice, sphereModel, sphereEffect, sphereSkyboxTexture);
+            // Sphere END
 
             foreach (AbstractEntity entity in entities)
             {
@@ -137,8 +151,9 @@ namespace LaborationVFX {
 
             foreach (AbstractEntity entity in entities)
             {
-                entity.Update(gameTime);
+                //entity.Update(gameTime);
             }
+
 
             foreach (AbstractModel model in models)
             {
@@ -178,8 +193,9 @@ namespace LaborationVFX {
 
             foreach (AbstractEntity entity in entities)
             {
-                entity.Draw(effect, parent);
+                //entity.Draw(effect, parent);
             }
+            sphereObject.Draw(world, camera.ViewMatrix, camera.ProjectionMatrix, fcamera.Position);
             foreach (AbstractModel model in models)
             {
                 model.Draw(camera.ViewMatrix, camera.ProjectionMatrix);
