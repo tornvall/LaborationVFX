@@ -79,6 +79,7 @@
     <Compile Include="Components\Input\UserAction.cs" />
     <Compile Include="Entities\Concrete\Ground.cs" />
     <Compile Include="Entities\Concrete\Jeep.cs" />
+    <Compile Include="Entities\Concrete\Snowplow.cs" />
     <Compile Include="Entities\Concrete\Sphere.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />

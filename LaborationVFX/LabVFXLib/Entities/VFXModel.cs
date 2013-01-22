@@ -12,10 +12,11 @@ namespace LabVFXLib.Geometry {
         private List<AccessMesh> _opaqueMeshes;
 
         private List<Boolean> _isVisible;
-        private List<Boolean> _isDoubleSided;
         private Matrix[] _meshTransform;
         private VFXEffect _effect;
         private GraphicsDevice _device;
+        protected Dictionary<string,Boolean> _isDoubleSided;
+
 
         public VFXModel(GraphicsDevice device, Model model, VFXEffect effect):base(model) {
             _effect = effect;
@@ -23,29 +24,30 @@ namespace LabVFXLib.Geometry {
             _translucentMeshes = new List<AccessMesh>();
             _opaqueMeshes = new List<AccessMesh>();
             _isVisible = new List<Boolean>();
-            _isDoubleSided = new List<Boolean>();
+            _isDoubleSided = new Dictionary<string, bool>();
 
             _meshTransform = new Matrix[_model.Meshes.Count];
 
             this.SetupModel();
-            this.SetupEffect();
+            //this.SetupEffect();
+            this.SetLighting();
         }
 
         private void SetupModel() {
             for(int i = 0; i < _meshTransform.Length; i++) {
                 _isVisible.Add(true);
-                _isDoubleSided.Add(false);
                 _meshTransform[i] = Matrix.Identity;
-            }
-            for(int id = 0; id < _model.Meshes.Count; id++) {
-                ModelMesh mesh = _model.Meshes[id];
+                ModelMesh mesh = _model.Meshes[i];
+
+                _isDoubleSided.Add(mesh.Name, false);
+
                 foreach(ModelMeshPart part in mesh.MeshParts) {
                     if (PartIsTranslucent(part))
                     {
-                        _translucentMeshes.Add(new AccessMesh(id, mesh));
+                        _translucentMeshes.Add(new AccessMesh(i, mesh));
                     }
                     else
-                        _opaqueMeshes.Add(new AccessMesh(id, mesh));
+                        _opaqueMeshes.Add(new AccessMesh(i, mesh));
                 }
             }
         }
@@ -62,7 +64,7 @@ namespace LabVFXLib.Geometry {
                         modelEffect.DiffuseColor = basicEffect.DiffuseColor;
                         modelEffect.SpecularColor = basicEffect.SpecularColor;
                         modelEffect.SpecularPower = basicEffect.SpecularPower;
-                        if(basicEffect.Texture != null)
+                        if (basicEffect.Texture != null)
                             modelEffect.DiffuseTexture = basicEffect.Texture;
                     } else {
                         modelMeshPart.Effect = (Effect)_effect;
@@ -75,7 +77,7 @@ namespace LabVFXLib.Geometry {
             bool result = false;
 
             if(modelMeshPart.Effect is BasicEffect){
-                if((double)((BasicEffect)modelMeshPart.Effect).Alpha < 1.0)   //|| (double)((VFXEffect)modelMeshPart.Effect).Alpha < 1.0
+                if((double)((BasicEffect)modelMeshPart.Effect).Alpha < 1.0)//  || (double)((VFXEffect)modelMeshPart.Effect).Alpha < 1.0)
                  result = true;
             }
             return result;
@@ -98,14 +100,24 @@ namespace LabVFXLib.Geometry {
         private void DrawMeshes(List<AccessMesh> meshes,Matrix view, Matrix projection) {
             foreach(AccessMesh am in meshes) {
                 if(_isVisible.ElementAt(am.MeshId)) {
-                    if(_isDoubleSided.ElementAt(am.MeshId)) {
-                        _device.RasterizerState = RasterizerState.CullNone;
-                        foreach(ModelMeshPart part in am.Mesh.MeshParts)
-                            this.DrawMeshPart(am, part, view, projection);
-                        _device.RasterizerState = RasterizerState.CullCounterClockwise;
-                    } else {
-                        foreach(ModelMeshPart part in am.Mesh.MeshParts)
-                            this.DrawMeshPart(am, part, view, projection);
+                    bool isDouble;
+                    _isDoubleSided.TryGetValue(am.Mesh.Name, out isDouble);
+                    if (isDouble != null)
+                    {
+                        if (isDouble)
+                        {
+                            //if(_isDoubleSided.ElementAt(am.MeshId)) {
+                            _device.RasterizerState = RasterizerState.CullNone;
+                            foreach (ModelMeshPart part in am.Mesh.MeshParts)
+                                this.DrawMeshPart(am, part, view, projection);
+                            _device.RasterizerState = RasterizerState.CullCounterClockwise;
+                        }
+                        else
+                        {
+                            _device.RasterizerState = RasterizerState.CullCounterClockwise;
+                            foreach (ModelMeshPart part in am.Mesh.MeshParts)
+                                this.DrawMeshPart(am, part, view, projection);
+                        }
                     }
                 }
             }
@@ -141,24 +153,24 @@ namespace LabVFXLib.Geometry {
             }
         }
 
-        public void SetLighting(VFXEffect baseEffect) {
+        public void SetLighting() {
             foreach(ModelMesh modelMesh in _model.Meshes) {
                 foreach(Effect effect in modelMesh.Effects) {
-                    if(typeof(IEffectFog).Equals(effect)) {
+                    if(effect is IEffectFog) {
                         IEffectFog fogEffect = (IEffectFog)effect;
-                        fogEffect.FogColor = baseEffect.FogColor;
-                        fogEffect.FogEnabled = baseEffect.FogEnabled;
-                        fogEffect.FogStart = baseEffect.FogStart;
-                        fogEffect.FogEnd = baseEffect.FogEnd;
+                        fogEffect.FogColor = _effect.FogColor;
+                        fogEffect.FogEnabled = _effect.FogEnabled;
+                        fogEffect.FogStart = _effect.FogStart;
+                        fogEffect.FogEnd = _effect.FogEnd;
                     }
-                    if(typeof(IEffectLights).Equals(effect)) {
+                    if(effect is IEffectLights) {
                         IEffectLights lightEffect = (IEffectLights)effect;
-                        lightEffect.AmbientLightColor = baseEffect.AmbientLightColor;
+                        lightEffect.AmbientLightColor = _effect.AmbientLightColor;
                         lightEffect.LightingEnabled = true;
-                        lightEffect.DirectionalLight0.Direction = baseEffect.DirectionalLight0.Direction;
-                        lightEffect.DirectionalLight0.DiffuseColor = baseEffect.DirectionalLight0.DiffuseColor;
+                        lightEffect.DirectionalLight0.Direction = _effect.DirectionalLight0.Direction;
+                        lightEffect.DirectionalLight0.DiffuseColor = _effect.DirectionalLight0.DiffuseColor;
                         lightEffect.DirectionalLight0.Enabled = true;
-                        lightEffect.DirectionalLight0.SpecularColor = baseEffect.DirectionalLight0.SpecularColor;                       
+                        lightEffect.DirectionalLight0.SpecularColor = _effect.DirectionalLight0.SpecularColor;                       
                         
                     }
                 }

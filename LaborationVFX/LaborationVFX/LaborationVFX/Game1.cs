@@ -93,8 +93,7 @@ namespace LaborationVFX {
             entities.Add(new Ground(GraphicsDevice, new Vector3(0, -2, 0), Quaternion.Identity, 100f));
 
             vfxEffect = new VFXEffect(Content.Load<Effect>("Effects/Effect1"));
-            vfxModel = new VFXModel(GraphicsDevice, Content.Load<Model>("snowplow"), vfxEffect);
-            //models.Add(new Jeep(GraphicsDevice, Content.Load<Model>("jeep"), vfxEffect));
+            vfxModel = new Snowplow(GraphicsDevice, Content.Load<Model>("snowplow"), vfxEffect);
             models.Add(vfxModel);
 
             foreach (AbstractEntity entity in entities)
