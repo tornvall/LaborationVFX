@@ -40,10 +40,12 @@ namespace LabVFXLib.Geometry {
             for(int id = 0; id < _model.Meshes.Count; id++) {
                 ModelMesh mesh = _model.Meshes[id];
                 foreach(ModelMeshPart part in mesh.MeshParts) {
-                    if(PartIsTranslucent(part)) {
+                    if (PartIsTranslucent(part))
+                    {
                         _translucentMeshes.Add(new AccessMesh(id, mesh));
-                        break;
                     }
+                    else
+                        _opaqueMeshes.Add(new AccessMesh(id, mesh));
                 }
             }
         }
