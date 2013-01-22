@@ -90,7 +90,7 @@ namespace LaborationVFX {
             effect.FogEnd = 100f;
             effect.FogColor = Color.CornflowerBlue.ToVector3();
 
-            entities.Add(new Ground(GraphicsDevice, new Vector3(0, 0, 0), Quaternion.Identity, 100f));
+            entities.Add(new Ground(GraphicsDevice, new Vector3(0, -2, 0), Quaternion.Identity, 100f));
 
             vfxEffect = new VFXEffect(Content.Load<Effect>("Effects/Effect1"));
             vfxModel = new VFXModel(GraphicsDevice, Content.Load<Model>("snowplow"), vfxEffect);
