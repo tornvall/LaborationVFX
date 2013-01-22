@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 
 namespace LabVFXLib.Effects {
-    public class VFXEffect : Effect, IEffectFog, IEffectMatrices, IEffectLights {
+    public class VFXEffect : BasicEffect{
         #region Fields
         private FogProperties _fog;
         private float _alpha;
@@ -194,7 +194,7 @@ namespace LabVFXLib.Effects {
         }
         #endregion
 
-        public VFXEffect(Effect cloneSource)
+        public VFXEffect(BasicEffect cloneSource)
             : base(cloneSource) {
             _projection = this.Parameters["Projection"];
             _view = this.Parameters["View"];
@@ -208,7 +208,7 @@ namespace LabVFXLib.Effects {
         }
 
         public override Effect Clone() {
-            return (Effect)new VFXEffect((Effect)this) {
+            return (Effect)new VFXEffect((BasicEffect)this) {
                 DiffuseColor = _diffuseColor,
                 SpecularColor = _specularColor,
                 SpecularPower = _specularPower,

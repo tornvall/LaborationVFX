@@ -29,7 +29,7 @@ namespace LabVFXLib.Geometry {
             _meshTransform = new Matrix[_model.Meshes.Count];
 
             this.SetupModel();
-            //this.SetupEffect();
+            this.SetupEffect();
             this.SetLighting();
         }
 
@@ -56,16 +56,17 @@ namespace LabVFXLib.Geometry {
             foreach(ModelMesh modelMesh in _model.Meshes) {
                 foreach(ModelMeshPart modelMeshPart in modelMesh.MeshParts) {
                     if(modelMeshPart.Effect is BasicEffect) {
-                        BasicEffect basicEffect = (BasicEffect)modelMeshPart.Effect ;
+                        BasicEffect basicEffect = (BasicEffect)modelMeshPart.Effect;
                         modelMeshPart.Effect = _effect.Clone();
-                        VFXEffect modelEffect = (VFXEffect)modelMeshPart.Effect;
-
-                        modelEffect.Alpha = basicEffect.Alpha;
-                        modelEffect.DiffuseColor = basicEffect.DiffuseColor;
-                        modelEffect.SpecularColor = basicEffect.SpecularColor;
-                        modelEffect.SpecularPower = basicEffect.SpecularPower;
+                        ((BasicEffect)modelMeshPart.Effect).Alpha = basicEffect.Alpha;
+                        ((BasicEffect)modelMeshPart.Effect).DiffuseColor = basicEffect.DiffuseColor;
+                        ((BasicEffect)modelMeshPart.Effect).SpecularColor = basicEffect.SpecularColor;
+                        ((BasicEffect)modelMeshPart.Effect).SpecularPower = basicEffect.SpecularPower;
                         if (basicEffect.Texture != null)
-                            modelEffect.DiffuseTexture = basicEffect.Texture;
+                        {
+                            ((BasicEffect)modelMeshPart.Effect).Texture = basicEffect.Texture;
+                            ((BasicEffect)modelMeshPart.Effect).TextureEnabled = true;
+                        }
                     } else {
                         modelMeshPart.Effect = (Effect)_effect;
                     }
@@ -77,8 +78,8 @@ namespace LabVFXLib.Geometry {
             bool result = false;
 
             if(modelMeshPart.Effect is BasicEffect){
-                if((double)((BasicEffect)modelMeshPart.Effect).Alpha < 1.0)//  || (double)((VFXEffect)modelMeshPart.Effect).Alpha < 1.0)
-                 result = true;
+                if((double)((BasicEffect)modelMeshPart.Effect).Alpha < 1.0)
+                    result = true;
             }
             return result;
         }
