@@ -14,7 +14,7 @@ namespace LaborationVFX.Components
         public Quaternion Rotation { get; set; }
         public Vector3 UpDirection { get; set; }
         public Matrix ViewMatrix { get; set; }
-        public Matrix ViewProjectionMatrix { get; set; }
+        public Matrix ProjectionMatrix { get; set; }
 
         public float AspectRatio { get; set; }
         public float nearPlaneDistance { get; set; }
@@ -32,7 +32,7 @@ namespace LaborationVFX.Components
             this.farPlaneDistance = 10000f;
 
             this.ViewMatrix = Matrix.CreateLookAt(this.Position, new Vector3(0, 0, 0), new Vector3(0, 1, 0));
-            this.ViewProjectionMatrix = Matrix.CreatePerspectiveFieldOfView(
+            this.ProjectionMatrix = Matrix.CreatePerspectiveFieldOfView(
                 MathHelper.PiOver4, this.AspectRatio, this.nearPlaneDistance, this.farPlaneDistance);
         }
 
@@ -51,7 +51,7 @@ namespace LaborationVFX.Components
             this.UpDirection = camup;
 
             this.ViewMatrix = Matrix.CreateLookAt(this.Position, pos, this.UpDirection);
-            this.ViewProjectionMatrix = Matrix.CreatePerspectiveFieldOfView(
+            this.ProjectionMatrix = Matrix.CreatePerspectiveFieldOfView(
                 MathHelper.PiOver4, this.AspectRatio, this.nearPlaneDistance, this.farPlaneDistance);
         }
 

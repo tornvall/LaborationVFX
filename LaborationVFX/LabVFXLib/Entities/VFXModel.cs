@@ -34,13 +34,14 @@ namespace LabVFXLib.Geometry {
         private void SetupModel() {
             for(int i = 0; i < _meshTransform.Length; i++) {
                 _isVisible.Add(true);
+                _isDoubleSided.Add(false);
                 _meshTransform[i] = Matrix.Identity;
             }
             for(int id = 0; id < _model.Meshes.Count; id++) {
                 ModelMesh mesh = _model.Meshes[id];
                 foreach(ModelMeshPart part in mesh.MeshParts) {
                     if(PartIsTranslucent(part)) {
-                        this._translucentMeshes.Add(new AccessMesh(id, mesh));
+                        _translucentMeshes.Add(new AccessMesh(id, mesh));
                         break;
                     }
                 }

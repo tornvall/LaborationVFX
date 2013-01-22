@@ -85,12 +85,17 @@ namespace LaborationVFX {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             effect = new BasicEffect(GraphicsDevice);
+            effect.FogEnabled = true;
+            effect.FogStart = 90f;
+            effect.FogEnd = 100f;
+            effect.FogColor = Color.CornflowerBlue.ToVector3();
 
-            entities.Add(new Ground(GraphicsDevice, new Vector3(0, 0, 0), Quaternion.Identity, 1f));
+            entities.Add(new Ground(GraphicsDevice, new Vector3(0, 0, 0), Quaternion.Identity, 100f));
 
             vfxEffect = new VFXEffect(Content.Load<Effect>("Effects/Effect1"));
-            //vfxModel = new VFXModel(Content.Load<Model>("snowplow"), vfxEffect);
-            models.Add(new Jeep(GraphicsDevice, Content.Load<Model>("jeep"), vfxEffect));
+            vfxModel = new VFXModel(GraphicsDevice, Content.Load<Model>("snowplow"), vfxEffect);
+            //models.Add(new Jeep(GraphicsDevice, Content.Load<Model>("jeep"), vfxEffect));
+            models.Add(vfxModel);
 
             foreach (AbstractEntity entity in entities)
             {
@@ -163,7 +168,7 @@ namespace LaborationVFX {
             GraphicsDevice.DepthStencilState = DepthStencilState.Default;
 
             world = Matrix.Identity;
-            effect.Projection = camera.ViewProjectionMatrix;
+            effect.Projection = camera.ProjectionMatrix;
             effect.View = camera.ViewMatrix;
             effect.World = world;
             //effect.TextureEnabled = true;
@@ -176,7 +181,7 @@ namespace LaborationVFX {
             }
             foreach (AbstractModel model in models)
             {
-                //model.Draw();
+                model.Draw(camera.ViewMatrix, camera.ProjectionMatrix);
             }
 
             //simplePlane.Draw(effect, parent);
