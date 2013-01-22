@@ -38,7 +38,6 @@ namespace LaborationVFX {
         #endregion
 
         #region LabVFXLib
-        VFXModel vfxModel;
         VFXEffect vfxEffect;
         #endregion
 
@@ -86,16 +85,16 @@ namespace LaborationVFX {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             effect = new BasicEffect(GraphicsDevice);
             effect.FogEnabled = true;
-            effect.FogStart = 90f;
-            effect.FogEnd = 100f;
+            effect.FogStart = 10f;
+            effect.FogEnd = 30f;
             effect.FogColor = Color.CornflowerBlue.ToVector3();
 
             entities.Add(new Ground(GraphicsDevice, new Vector3(0, -2, 0), Quaternion.Identity, 100f));
 
             //vfxEffect = new VFXEffect(Content.Load<Effect>("Effects/Effect1"));
             vfxEffect = new VFXEffect(new BasicEffect(GraphicsDevice));
-            vfxModel = new Snowplow(GraphicsDevice, Content.Load<Model>("snowplow"), vfxEffect);
-            models.Add(vfxModel);
+            models.Add(new Snowplow(GraphicsDevice, Content.Load<Model>("snowplow"), vfxEffect));
+            models.Add(new Sphere(GraphicsDevice, Content.Load<Model>("sphere_mapped"), vfxEffect));
 
             foreach (AbstractEntity entity in entities)
             {
